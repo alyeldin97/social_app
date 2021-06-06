@@ -2,9 +2,9 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_social_app/layout/layout_screen.dart';
-import 'package:new_social_app/models/components.dart';
-import 'package:new_social_app/shared/register_cubit.dart';
-import 'package:new_social_app/shared/register_states.dart';
+import 'package:new_social_app/shared/components.dart';
+import 'package:new_social_app/shared/cubit/register_cubit.dart';
+import 'package:new_social_app/shared/states/register_states.dart';
 
 
 class SocialRegisterScreen extends StatelessWidget {
@@ -118,7 +118,7 @@ class SocialRegisterScreen extends StatelessWidget {
                           height: 30.0,
                         ),
                         ConditionalBuilder(
-                          condition: state is! SocialCreateUserSuccessState,
+                          condition: state is ! SocialRegisterLoadingState,
                           builder: (context) => Container(
                             width: double.infinity,
                             child: ElevatedButton(

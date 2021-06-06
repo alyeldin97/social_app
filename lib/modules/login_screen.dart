@@ -1,9 +1,12 @@
+import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_social_app/models/components.dart';
+import 'package:new_social_app/layout/layout_screen.dart';
+import 'package:new_social_app/shared/components.dart';
 import 'package:new_social_app/modules/register_screen.dart';
-import 'package:new_social_app/shared/login_cubit.dart';
-import 'package:new_social_app/shared/login_states.dart';
+import 'package:new_social_app/shared/cache_helper.dart';
+import 'package:new_social_app/shared/cubit/login_cubit.dart';
+import 'package:new_social_app/shared/states/login_states.dart';
 
 class SocialLoginScreen extends StatelessWidget {
   @override
@@ -15,10 +18,12 @@ class SocialLoginScreen extends StatelessWidget {
     return BlocConsumer<SocialLogInCubit,SocialLoginstates>(
         listener: (context,state){
           if(state is SocialLoginSuccessState){
+            CacheHelper.saveData(key: 'uId',data: state.uId).then((value) {
+            });
+            navigateAndFinish(context, LayoutScreen());
 
           }else{
-            //SHOW TOAST
-            //print();
+           //SHOW TOAST
           }
         },
         builder:(context,state){
@@ -67,9 +72,13 @@ class SocialLoginScreen extends StatelessWidget {
 
                     ),
                     SizedBox(height: 15,),
-                    Container(width:double.infinity,child: ElevatedButton(onPressed: (){
-                      cubit.userLogin(email:emailController.text ,password: passwordController.text);
-                    }, child: Text('LOGIN'))),
+                    ConditionalBuilder(
+                      condition: state is ! SocialLoginLoadingState,
+                      fallback: (context)=>Center(child: CircularProgressIndicator()),
+                      builder:(context)=> Container(width:double.infinity,child: ElevatedButton(onPressed: (){
+                        cubit.userLogin(email:emailController.text ,password: passwordController.text,context: context);
+                      }, child: Text('LOGIN'))),
+                    ),
                     SizedBox(height: 15,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

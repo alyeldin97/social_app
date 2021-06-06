@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_social_app/models/user_model.dart';
-import 'package:new_social_app/shared/register_states.dart';
+import 'package:new_social_app/shared/states/register_states.dart';
 
 class SocialRegisterCubit extends Cubit<RegisterStates> {
   SocialRegisterCubit() : super(RegisterInitialState());
@@ -40,7 +40,7 @@ class SocialRegisterCubit extends Cubit<RegisterStates> {
 
   void userCreate({String name, String email, String phone, String uId}) {
     UserModel model =
-        UserModel(name: name, email: email, phone: phone, uId: uId);
+        UserModel(name: name, email: email, phone: phone, uId: uId,isEmailVerified: false);
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)

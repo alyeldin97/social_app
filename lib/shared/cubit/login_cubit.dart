@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_social_app/shared/login_states.dart';
+import 'package:new_social_app/layout/layout_screen.dart';
+import 'package:new_social_app/shared/components.dart';
+import 'package:new_social_app/shared/states/login_states.dart';
 import 'package:flutter/material.dart';
 
 class SocialLogInCubit extends Cubit<SocialLoginstates>{
@@ -20,11 +22,11 @@ class SocialLogInCubit extends Cubit<SocialLoginstates>{
     emit(SocialChangePasswordVisibilityState());
   }
 
-  void userLogin({String email, String password}) {
+  void userLogin({String email, String password,var context}) {
     emit(SocialLoginLoadingState());
     FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password).then((value) {
-    print(value.user.email);
-      emit(SocialLoginSuccessState());
+
+      emit(SocialLoginSuccessState(value.user.uid));
     }).catchError((error) {
       print(error.toString());
       emit(SocialLoginErrorState());
