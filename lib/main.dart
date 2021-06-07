@@ -7,7 +7,6 @@ import 'package:new_social_app/shared/cache_helper.dart';
 import 'package:new_social_app/shared/constants.dart';
 import 'package:new_social_app/shared/cubit/login_cubit.dart';
 import 'package:new_social_app/shared/cubit/main_cubit.dart';
-
 import 'bloc_observer.dart';
 
 void main()async {
@@ -36,11 +35,16 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context)=>MainCubit()..getUserData()),
       ],
       child: MaterialApp(
-
         debugShowCheckedModeBanner: false,
         title: 'Social App',
         theme: ThemeData(
-          primarySwatch: Colors.teal,
+          primarySwatch: Colors.brown,
+          iconTheme: IconThemeData(color:Colors.brown),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: Colors.teal,
+            showUnselectedLabels: true,
+          ),
         ),
         home: startWidget,
       ),

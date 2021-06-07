@@ -31,27 +31,39 @@ class SocialRegisterCubit extends Cubit<RegisterStates> {
         .then((value) {
       print(value.user.email);
       print(value.user.uid);
-      userCreate(name: name,phone: phone,email: email,uId: value.user.uid);
+      userCreate(name: name, phone: phone, email: email, uId: value.user.uid);
     }).catchError((error) {
       print(error.toString());
       emit(SocialRegisterErrorState(error.toString()));
     });
   }
 
-  void userCreate({String name, String email, String phone, String uId}) {
-    UserModel model =
-        UserModel(name: name, email: email, phone: phone, uId: uId,isEmailVerified: false);
+  void userCreate({
+    String name,
+    String email,
+    String phone,
+    String uId,
+  }) {
+    UserModel model = UserModel(
+        cover:
+            'https://image.freepik.com/free-photo/portrait-smiling-young-man-pointing-his-finger-downward-orange-backdrop_23-2148119669.jpg',
+        bio: 'Write Your Bio',
+        name: name,
+        email: email,
+        phone: phone,
+        uId: uId,
+        isEmailVerified: false,
+        image:
+            'https://image.freepik.com/free-photo/bearded-happy-looking-man-with-brunette-hair-has-piercing-wearing-black-sweater-holding-pointing-finger-smartphone-copy-space-isolated-yellow-wall_295783-14549.jpg');
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .set(model.toMap())
         .then((value) {
-
-          emit(SocialCreateUserSuccessState());
-    })
-        .catchError((error){
-          print(error.toString());
-          emit(SocialCreateUserErrorState(error.toString()));
+      emit(SocialCreateUserSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(SocialCreateUserErrorState(error.toString()));
     });
   }
 }
